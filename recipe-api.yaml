@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+  title: レシピアプリAPI
+  description: レシピアプリ用API
+  version: "1.0.0"
+  contact:
+    name: Keisuke Takayama
+    email: keisuke0322@gmail.com
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+tags:
+  - name: chef
+    description: シェフ情報を扱うためのAPIです
+paths:
+  /chef/getChefs:
+    get:
+      tags: ["chef"]
+      summary: 全シェフ情報取得API
+      operationId: getChefs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                    introduction:
+                      type: string
+                    user_id:
+                      type: integer
+                      format: int32
+                    is_file:
+                      type: boolean
+                    file_version:
+                      type: integer
+                      format: int32
+                    recipe_cnt:
+                      type: integer
+                      format: int32
+                    follower_cnt:
+                      type: integer
+                      format: int32
+                example:
+                  - id: 1
+                    name: 田中シェフ
+                    introduction: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere similique accusantium vitae numquam quia voluptas porro consequuntur sint qui quis.
+                    user_id: null
+                    is_file: true
+                    file_version: 0
+                    recipe_cnt: 6
+                    follower_cnt: 2
+                  - id: 2
+                    name: 高橋シェフ
+                    introduction: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere similique accusantium vitae numquam quia voluptas porro consequuntur sint qui quis.
+                    user_id: null
+                    is_file: true
+                    file_version: 0
+                    recipe_cnt: 4
+                    follower_cnt: 2
+  /chef/getChef?id={id}:
+    get:
+      tags: ["chef"]
+      summary: シェフ情報取得API
+      operationId: getChef
+      parameters:
+        - name: id
+          in: path
+          description: シェフ識別子
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                    introduction:
+                      type: string
+                    user_id:
+                      type: integer
+                      format: int32
+                    is_file:
+                      type: boolean
+                    file_version:
+                      type: integer
+                      format: int32
+                    recipe_cnt:
+                      type: integer
+                      format: int32
+                    follower_cnt:
+                      type: integer
+                      format: int32
+                example:
+                  - id: 1
+                    name: 田中シェフ
+                    introduction: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere similique accusantium vitae numquam quia voluptas porro consequuntur sint qui quis.
+                    user_id: null
+                    is_file: true
+                    file_version: 0
+                    recipe_cnt: 6
+                    follower_cnt: 2
+  /chef/postChef:
+    post:
+      tags: ["chef"]
+      summary: シェフ情報登録API
+      operationId: postChef
+      requestBody:
+        description: 登録したいユーザ情報を送信する
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                file_version:
+                  type: integer
+                is_file:
+                  type: boolean
+                user_id:
+                  type: integer
+                introduction:
+                  type: string
+              example:
+                - name: 高山シェフ
+                  file_version: 0
+                  is_file: false
+                  user_id: null
+                  introduction:
+      responses:
+        "200":
+          description: OK
+  /chef/putChef:
+    put:
+      tags: ["chef"]
+      summary: シェフ情報更新API
+      operationId: putChef
+      requestBody:
+        description: 登録したいユーザ情報を送信する
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                introduction:
+                  type: string
+                file_version:
+                  type: integer
+                is_file:
+                  type: boolean
+              example:
+                - name: 高山シェフ
+                  introduction:
+                  file_version: 0
+                  is_file: false
+      responses:
+        "200":
+          description: OK
+  /chef/deleteFavoriteChef:
+    delete:
+      tags: ["chef"]
+      summary: お気に入りシェフ情報削除API
+      operationId: deleteFavoriteChef
+      requestBody:
+        description: お気に入りユーザ情報を削除する
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                user_id:
+                  type: integer
+                chef_id:
+                  type: integer
+              example:
+                - user_id: 1
+                  chef_id: 1
+      responses:
+        "200":
+          description: OK
